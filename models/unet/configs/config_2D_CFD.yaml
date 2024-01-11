@@ -1,0 +1,48 @@
+pde_name: "2D_Compressible_NS"
+model_name: "UNet"
+# mode
+if_training: True
+continue_training: False
+model_path: null
+# output args
+output_dir: "./checkpoint/"
+save_period: 1
+# visualize
+tensorboard: True
+log_dir: "./logs/tensorboard/"
+# training args
+seed: 0
+training_type: "autoregressive"
+pushforward: True
+initial_step: 10
+unroll_step: 20
+epochs: 1
+# datasets args
+dataset:
+  single_file: True
+  file_name: "2D_CFD_Rand_M0.1_Eta0.1_Zeta0.1_periodic_128_Train.hdf5"
+  saved_folder: "/home/data2/fluidbench/2D/CFD/2D_Train_Rand/"
+  reduced_resolution: 2
+  reduced_resolution_t: 1
+  reduced_batch: 1
+  test_ratio: 0.1
+# dataloader args
+dataloader:
+  batch_size: 32
+  num_workers: 2
+  pin_memory: False
+# model args
+model:
+  in_channels: 4
+  out_channels: 4
+  init_features: 32
+# optimizer args
+optimizer:
+  name: 'Adam'
+  lr: 1.e-3
+  weight_decay: 1.e-4
+# learning rate scheduler
+scheduler:
+  name: "StepLR"
+  step_size: 100
+  gamma: 0.5
