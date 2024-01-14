@@ -146,8 +146,6 @@ def val_loop(dataloader, model, loss_fn, device, t_train, initial_step):
         input_shape = list(x.shape)[:-2] # (bs, x1, ..., xd)
         input_shape.append(-1) # (bs, x1, ..., xd, -1)
         for t in range(initial_step, t_train):
-            # if training_type != "autoregressive":
-            #     x = y[..., t-initial_step:t, :] # for one step training
             model_input = x.reshape(input_shape) # (bs, x1, ..., xd, init_t*v)
             # permute input
             input_permute = [0, -1]

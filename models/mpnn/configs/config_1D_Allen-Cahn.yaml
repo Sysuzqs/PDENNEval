@@ -1,0 +1,51 @@
+# PDE Info
+pde_name: "1D_Allen_Cahn"
+temporal_domain: (0, 1)
+resolution_t: 101
+spatial_domain: "[(-1, 1)]"
+resolution: [1024]
+variables: {"c1": 0.0001, "c2": 5}
+num_outputs: 1
+# training args
+if_training: True
+continue_training: False
+model_path: null
+output_dir: "./checkpoint/"
+save_period: 20
+tensorboard: True
+log_dir: "./logs/tensorboard/"
+seed: 0
+time_window: 10
+neighbors: 3
+unrolling: 1
+unroll_step: 20
+epochs: 500
+# datasets args
+dataset:
+  single_file: True
+  file_name: "1D_Allen-Cahn_0.0001_5.hdf5"
+  saved_folder: "/home/data2/fluidbench/1D/Allen-Cahn/"
+  reduced_resolution: 4
+  reduced_resolution_t: 1
+  reduced_batch: 1
+  test_ratio: 0.1
+# dataloader args
+dataloader:
+  batch_size: 64
+  num_workers: 4
+  pin_memory: True
+# model args
+model_name: "MPNN"
+model:
+  hidden_features: 128
+  hidden_layer: 6
+# optimizer args
+optimizer:
+  name: 'Adam'
+  lr: 1.e-4
+  weight_decay: 1.e-8
+# learning rate schedule
+scheduler:
+  name: "StepLR"
+  step_size: 100
+  gamma: 0.5
