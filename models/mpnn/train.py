@@ -222,16 +222,16 @@ def main(args):
                         f"_bs{args['dataloader']['batch_size']}" +
                         f"_wd{args['optimizer']['weight_decay']}")
     saved_dir = os.path.join(args["output_dir"], os.path.splitext(args["dataset"]["file_name"])[0])
-    if not os.path.exists(saved_dir):
-        os.makedirs(saved_dir)
 
-    # visualize (new add)
-    if args["if_training"] and args["tensorboard"]:
-        log_path = os.path.join(args["log_dir"], os.path.splitext(args["dataset"]["file_name"])[0], saved_model_name)
-        writer = SummaryWriter(log_path)
+    if args["if_training"]:
+        if not os.path.exists(saved_dir): # prepare directory
+            os.makedirs(saved_dir)
+        if args["tensorboard"]: # visualize
+            log_path = os.path.join(args["log_dir"], os.path.splitext(args["dataset"]["file_name"])[0], saved_model_name)
+            writer = SummaryWriter(log_path)
 
     # PDE
-    pde = PDE(args["pde_name"], 
+    pde = PDE(args["pde_name"],
               variables=args["variables"],
               temporal_domain=eval(args["temporal_domain"]), 
               resolution_t=args["resolution_t"],
