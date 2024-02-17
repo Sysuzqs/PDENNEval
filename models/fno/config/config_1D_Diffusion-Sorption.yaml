@@ -1,47 +1,41 @@
-pde_name: "2D_Diffusion-Reaction"
-model_name: "UNet"
-# mode
+pde_name: "1D_diffusion_sorption"
+model_name: "FNO"
 if_training: True
 continue_training: False
 model_path: null
-# output args
 output_dir: "./checkpoint/"
 save_period: 20
-# visualize
-tensorboard: True
-log_dir: "./logs/tensorboard/"
 # training args
 seed: 0
 training_type: "autoregressive"
-pushforward: True
+t_train: 101
 initial_step: 10
 unroll_step: 20
 epochs: 500
-# datasets args
+# dataset args 
 dataset:
   single_file: False
-  file_name: "2D_diff-react_NA_NA.h5"
-  saved_folder: "/home/data2/fluidbench/2D/diffusion-reaction/"
-  reduced_resolution: 1
+  file_name: '1D_diff-sorp_NA_NA.h5'
+  saved_folder: "/home/data2/fluidbench/1D/diffusion-sorption/"
+  reduced_resolution: 4
   reduced_resolution_t: 1
   reduced_batch: 1
-  test_ratio: 0.1
 # dataloader args
 dataloader:
-  batch_size: 8
-  num_workers: 2
+  batch_size: 64
+  num_workers: 4
   pin_memory: False
 # model args
 model:
-  in_channels: 2
-  out_channels: 2
-  init_features: 32
-#  optimizer args
+  num_channels: 1
+  modes: 12
+  width: 20
+# optimizer args
 optimizer:
   name: 'Adam'
   lr: 1.e-3
   weight_decay: 1.e-4
-# learning rate scheduler
+# scheduler args
 scheduler:
   name: "StepLR"
   step_size: 100

@@ -1,0 +1,42 @@
+pde_name: "1D_Compressible_NS"
+model_name: "FNO"
+if_training: True
+continue_training: False
+model_path: null
+output_dir: "./checkpoint/"
+save_period: 20
+# training args
+seed: 0
+training_type: "autoregressive"
+t_train: 101
+initial_step: 10
+unroll_step: 20
+epochs: 500
+# dataset args 
+dataset:
+  single_file: True
+  file_name: "1D_CFD_Rand_Eta0.1_Zeta0.1_periodic_Train.hdf5"
+  saved_folder: "/home/data2/fluidbench/1D/CFD/Train/"
+  reduced_resolution: 4
+  reduced_resolution_t: 1
+  reduced_batch: 1
+# dataloader args
+dataloader:
+  batch_size: 64
+  num_workers: 4
+  pin_memory: False
+# model args
+model:
+  num_channels: 3
+  modes: 12
+  width: 20
+# optimizer args
+optimizer:
+  name: 'Adam'
+  lr: 1.e-3
+  weight_decay: 1.e-4
+# scheduler args
+scheduler:
+  name: "StepLR"
+  step_size: 100
+  gamma: 0.5
