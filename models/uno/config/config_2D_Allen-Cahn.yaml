@@ -1,0 +1,41 @@
+pde_name: "2D_Allen_Cahn"
+model_name: "UNO"
+if_training: True
+continue_training: False
+model_path: null
+output_dir: "./checkpoint/"
+save_period: 20
+# training args
+seed: 0
+training_type: "autoregressive"
+t_train: 201
+initial_step: 10
+unroll_step: 20
+epochs: 500
+# dataset args
+dataset:
+  single_file: True
+  file_name: "2D_Allen-Cahn_0.0001_1.hdf5"
+  saved_folder: "/home/data1/ZhouzyDataset/"
+  reduced_resolution: 1
+  reduced_resolution_t: 1
+  reduced_batch: 1
+# dataloader args
+dataloader:
+  batch_size: 8
+  num_workers: 4
+  pin_memory: False
+# model args
+model:
+  num_channels: 1
+  width: 30
+# optimizer args
+optimizer:
+  name: 'Adam'
+  lr: 1.e-3
+  weight_decay: 1.e-4
+# scheduler args
+scheduler:
+  name: "StepLR"
+  step_size: 100
+  gamma: 0.5
