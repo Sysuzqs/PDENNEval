@@ -345,7 +345,6 @@ def main(args):
     
 
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("config_file", type=str, help="Path to config file")
