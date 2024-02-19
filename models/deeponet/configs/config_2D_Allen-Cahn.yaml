@@ -1,0 +1,47 @@
+pde_name: "2D_Allen-Cahn"
+model_name: "DeepONet"
+if_training: True
+continue_training: False
+model_path: null
+output_dir: "./checkpoint/"
+save_period: 10
+seed: 0
+initial_step: 1
+epochs: 200
+
+model:
+  input_size: 128
+  act: 'tanh'
+  in_channels : 1   # input
+  out_channels : 1   # output
+  query_dim: 3
+  base_model: "MLP"
+train:
+  scenario : "2D_Burgers"
+  save_name : "2d_AC"
+  training_type: "single"
+
+dataset:
+  name : "2D_Allen-Cahn"
+  single_file: True
+  file_name: "2D_Allen-Cahn_0.0001_1.hdf5"
+  saved_folder: "/home/data2/fluidbench/2D/Allen-Cahn/"
+  reduced_resolution: 1
+  reduced_resolution_t: 1
+  reduced_batch: 1
+  test_ratio: 0.1
+# dataloader args
+dataloader:
+  batch_size: 50
+  num_workers: 1
+  pin_memory: False
+# optimizer args
+optimizer:
+  name: 'Adam'
+  lr: 1.e-3
+  weight_decay : 1.e-4
+# scheduler args
+scheduler:
+  name: "StepLR"
+  step_size: 50
+  gamma: 0.5
