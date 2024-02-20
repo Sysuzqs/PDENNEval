@@ -1,0 +1,58 @@
+pde_name: "2D_Allen-Cahn"
+model_name: "PINO"
+if_training: True
+continue_training: False
+model_path: null
+output_dir: "./checkpoint/"
+save_period: 10
+seed: 0
+training_type: "single"   # or autoregressive
+initial_step: 1
+epochs: 200
+
+model:
+  width : 64
+  modes1: [12, 12, 12, 12]
+  modes2: [12, 12, 12, 12]
+  modes3: [12, 12, 12, 12]
+  fc_dim: 128
+  act: 'gelu'
+  in_channels : 1   # input
+  out_channels : 1   # output
+
+train:
+  scenario : "2D_Allen-Cahn"
+  scheduler_gamma: 0.5
+  ic_loss: 2.0
+  f_loss: 1.0
+  xy_loss: 10.0
+  save_name : "2d_AC_4x"
+
+
+dataset:
+  name : "2D_diff-react"
+  single_file: True
+  file_name: "2D_Allen-Cahn_0.0001_1.hdf5"
+  saved_folder: "/home/data2/fluidbench/2D/Allen-Cahn/"
+  reduced_resolution: 4
+  reduced_resolution_t: 1
+  reduced_resolution_pde: 1
+  reduced_resolution_pde_t: 1
+  reduced_batch: 1
+  test_ratio: 0.1
+  if_grid_norm : False
+# dataloader相关参数
+dataloader:
+  batch_size: 1  # 2
+  num_workers: 0
+  pin_memory: False
+# 优化器相关参数
+optimizer:
+  name: 'Adam'
+  lr: 1.e-3
+  weight_decay : 1.e-4
+# scheduler相关参数
+scheduler:
+  name: "StepLR"
+  step_size: 50
+  gamma: 0.5

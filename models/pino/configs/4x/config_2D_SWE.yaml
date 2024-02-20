@@ -1,0 +1,58 @@
+pde_name: "2D_shallow_water"
+model_name: "PINO"
+if_training: True
+continue_training: False
+model_path: null
+output_dir: "./checkpoint/"
+save_period: 10
+seed: 0
+training_type: "single"   # or autoregressive
+initial_step: 1
+epochs: 200
+
+model:
+  width : 64
+  modes1: [12, 12, 12, 12]
+  modes2: [12, 12, 12, 12]
+  modes3: [12, 12, 12, 12]
+  fc_dim: 128
+  act: 'gelu'
+  in_channels : 1   # input  : h    (u,v have no data except an initial condition =0 )
+  out_channels : 3   # output : h,u,v
+
+train:
+  scenario : "2D_shallow_water"
+  scheduler_gamma: 0.5
+  ic_loss: 2.0
+  f_loss: 1.0
+  xy_loss: 10.0
+  save_name : "2d_SWE_4x"
+
+
+dataset:
+  name : "2D_SWE"
+  single_file: False
+  file_name: "2D_rdb_NA_NA.h5"
+  saved_folder: "/home/data2/fluidbench/2D/shallow-water/"
+  reduced_resolution: 4
+  reduced_resolution_t: 1
+  reduced_resolution_pde: 1
+  reduced_resolution_pde_t: 1
+  reduced_batch: 1
+  test_ratio: 0.1
+  if_grid_norm : False
+# dataloader相关参数
+dataloader:
+  batch_size: 1 # 2
+  num_workers: 0
+  pin_memory: False
+# 优化器相关参数
+optimizer:
+  name: 'Adam'
+  lr: 1.e-3
+  weight_decay : 1.e-4
+# scheduler相关参数
+scheduler:
+  name: "StepLR"
+  step_size: 50
+  gamma: 0.5

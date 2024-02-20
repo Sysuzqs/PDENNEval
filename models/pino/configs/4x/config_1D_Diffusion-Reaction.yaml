@@ -1,0 +1,57 @@
+pde_name: "1D_diffusion_reaction"
+model_name: "PINO"
+if_training: True
+continue_training: False
+model_path: null
+output_dir: "./checkpoint/"
+save_period: 20
+seed: 0
+training_type: "single"   
+initial_step: 1
+epochs: 500
+
+model:
+  width : 32
+  modes1: [12, 12, 12, 12]
+  modes2: [12, 12, 12, 12]
+  fc_dim: 128
+  act: 'gelu'
+  in_channels : 1   # input
+  out_channels : 1   # output
+
+train:
+  scenario : "1D_diffusion_reaction"
+  scheduler_gamma: 0.5
+  ic_loss: 5.0
+  f_loss: 1.0
+  xy_loss: 10.0
+  save_name : "1d_diff-react_4x"
+
+
+dataset:
+  name : "1D_diffusion_reaction"
+  single_file: True
+  file_name: "ReacDiff_Nu0.5_Rho1.0.hdf5"
+  saved_folder: "/home/data2/fluidbench/1D/ReactionDiffusion/"
+  reduced_resolution: 16
+  reduced_resolution_t: 1
+  reduced_resolution_pde: 4
+  reduced_resolution_pde_t: 1
+  reduced_batch: 1
+  test_ratio: 0.1
+  if_grid_norm : False
+# dataloader相关参数
+dataloader:
+  batch_size: 1 # 50
+  num_workers: 0
+  pin_memory: False
+# 优化器相关参数
+optimizer:
+  name: 'Adam'
+  lr: 1.e-3
+  weight_decay : 1.e-4
+# scheduler相关参数
+scheduler:
+  name: "StepLR"
+  step_size: 100
+  gamma: 0.5
