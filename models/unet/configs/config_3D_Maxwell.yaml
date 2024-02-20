@@ -3,7 +3,7 @@ model_name: "UNet"
 # mode
 if_training: True
 continue_training: False
-model_path: "/home/zhouziyang/PDENNEval/models/unet/tmp/3D_Maxwell_10_1/UNet_lr0.001_bs2_wd0.0001_autoregressive_AR-best.pt"
+model_path: null
 # output args
 output_dir: "./checkpoint/"
 save_period: 1

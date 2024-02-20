@@ -60,29 +60,41 @@ comming soon
 
 ## Get started
 
-In this work, we provide code reference of 12 advanced NN methods, including 6 function learning-based NN methods: [DRM](https://arxiv.org/abs/1710.00211), [PINN](https://www.sciencedirect.com/science/article/abs/pii/S0021999118307125), [WAN](https://arxiv.org/abs/1907.08272), [DFLM](https://arxiv.org/abs/2001.06145), [RFM](https://arxiv.org/abs/2207.13380), [DFVM](https://arxiv.org/abs/2305.06863v2), and 6 operator learning-based NN methods: [U-Net](https://arxiv.org/abs/1505.04597), [MPNN](https://arxiv.org/abs/2202.03376), [FNO](https://arxiv.org/abs/2010.08895), [PINO](https://arxiv.org/abs/2111.03794), [U-NO](https://arxiv.org/abs/2204.11127). The source code can be found in [models](https://github.com/zhouzy36/PDENNEval/tree/main/models) folder. The relevant files for most of methods (DeepONet, MPNN, PINNs, PINO, U-Net, U-NO) are stored in separate subfolders named after the method name. And each subfolder usually includes following contents:
-* `config` (folder) contains several yaml config files for solving different PDEs using this method. All arguments of traing and testing are saved in this file.
-* `{method name}.py` contains the implementation of model.
-* `train.py` contains scripts of model training and testing.
-* `utils.py` contains scripts related to data reading and other auxiliary functions such as data format conversion, random seed initialization, timer and so on.
+In this work, we provide code reference of 12 advanced NN methods, including 6 function learning-based NN methods: [DRM](https://arxiv.org/abs/1710.00211), [PINN](https://www.sciencedirect.com/science/article/abs/pii/S0021999118307125), [WAN](https://arxiv.org/abs/1907.08272), [DFLM](https://arxiv.org/abs/2001.06145), [RFM](https://arxiv.org/abs/2207.13380), [DFVM](https://arxiv.org/abs/2305.06863v2), and 6 operator learning-based NN methods: [U-Net](https://arxiv.org/abs/1505.04597), [MPNN](https://arxiv.org/abs/2202.03376), [FNO](https://arxiv.org/abs/2010.08895), [DeepONet](https://arxiv.org/abs/1910.03193), [PINO](https://arxiv.org/abs/2111.03794), [U-NO](https://arxiv.org/abs/2204.11127). The source code can be found in [models](https://github.com/zhouzy36/PDENNEval/tree/main/models). The relevant code files for the most of methods (DeepONet, DFVM, FNO, MPNN, PINNs, PINO, UNet, UNO) are saved in a subfolder named after the method name. And it contains at least the following contents:
+* `config`(folder): contains yaml configuration files for solving different PDEs using this method. All arguments for model training and testing are saved in this file.
+* `{model name}.py`: contains implementation of evaluated model.
+* `train.py`: contains training and testing scripts.
+* `utils.py`: contains code related to data reading and some tool functions, such as data format conversion, random seed initialization, timer and etc.
 
-`metrics.py` contains implementation of metric functions shared by most of methods.
+`metrics.py` contains implementation of metric functions shared by most of NN methods.
 
-### Train:
-1. Check config file:
+### Train 
+
+1. Check configuration file:
     1. `file_name` and `saved_folder` are correct;
-    2. `if_training` is `True`;
-2. Modify some hyper-parameters such as learning rate, batch size;
-3. Run command like:
+    2. `if_training` is `True`
+2. Run command:
+```bash
+CUDA_VISIBLE_DEVICES=0 python train.py ${config file path}
+```
+
+### Resume training
+
+1. Modify configuration file:
+    1. Make sure `if_training` is `True`;
+    2. Set `continue_training` to `True`;
+    3. Set `model_path` to the checkpoint path where traing restart;
+2. Run command:
 ```bash
 CUDA_VISIBLE_DEVICES=0 python train.py ${config file path}
 ```
 
 ### Test
-1. Modify config file:
-    1. Set `if_training` as `False`;
-    2. Set `model_path` as checkpoint path to be evaluated;
-2. Run command like:
+
+1. Modify configuration file:
+    1. Set `if_training` to `False`;
+    2. Set `model_path` to the checkpoint path where the model to be evaluated is saved.
+2. Run command:
 ```bash
 CUDA_VISIBLE_DEVICES=0 python train.py ${config file}
 ```

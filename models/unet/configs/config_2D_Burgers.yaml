@@ -3,7 +3,7 @@ model_name: "UNet"
 # mode
 if_training: True
 continue_training: False
-model_path: "/home/zhouziyang/PDENNEval/models/unet/checkpoint/2D_Burgers_Nu0.001/UNet_lr0.001_bs8_wd0.0001_autoregressive_PF20-best.pt"
+model_path: null
 # output args
 output_dir: "./checkpoint/"
 save_period: 1
