@@ -3,17 +3,19 @@ import argparse
 import numpy as np
 import os
 import random
+import sys
 import torch
-import yaml
 import time
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
+import yaml
 
 from utils import *
 from mpnn import MPNN
 
+sys.path.append("..")
 import metrics
 
 def get_dataset(args):
