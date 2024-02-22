@@ -1,17 +1,21 @@
 # PDENNEval
 
-The official code repository for PDENNEval.
+## Introduction
 
-## Requirements
+This is the official code repository for PDENNEval. PDENNEval conducted a comprehensive and systematic evaluation of 12 NN methods for PDEs, including 6 function learning-based NN methods: [DRM](https://arxiv.org/abs/1710.00211), [PINN](https://www.sciencedirect.com/science/article/abs/pii/S0021999118307125), [WAN](https://arxiv.org/abs/1907.08272), [DFLM](https://arxiv.org/abs/2001.06145), [RFM](https://arxiv.org/abs/2207.13380), [DFVM](https://arxiv.org/abs/2305.06863v2), and 6 operator learning-based NN methods: [U-Net](https://arxiv.org/abs/1505.04597), [MPNN](https://arxiv.org/abs/2202.03376), [FNO](https://arxiv.org/abs/2010.08895), [DeepONet](https://arxiv.org/abs/1910.03193), [PINO](https://arxiv.org/abs/2111.03794), [U-NO](https://arxiv.org/abs/2204.11127). In this repository, we provide code reference for all evaluated methods. If this repository is helpful to your research, please cite our paper.
+
+## Requirement
+
+Our implementation is based on PyTorch. Before starting, make sure you have configured environment.
 
 ### Installation
 
 Create a conda environment and install dependencies (ours):
-* python 3.8
+* Python 3.8
 * CUDA 11.6
-* pytorch 1.13.1
-* torch-geometric (for MPNN)
-* DeepXDE 1.10.0 (for PINNS)
+* PyTorch 1.13.1
+* PyTorch Geometric (for MPNN)
+* DeepXDE 1.10.0 (for PINNs)
 
 ```bash
 # create environment
@@ -36,11 +40,11 @@ pip install tensorboard matplotlib tqdm # visualization
 
 ### Datasets
 
-The data used in our evaluation are from two sources: PDEBench and self-generated.
+The data used in our evaluation are from two sources: [PDEBench](https://arxiv.org/abs/2210.07182) and self-generated.
 
-#### PDEBench data
+#### PDEBench Data
 
-Download data file from https://darus.uni-stuttgart.de/dataset.xhtml?persistentId=doi:10.18419/darus-2986. The data files for each equation are as follows:
+PDEBench provides large datasets covering wide range PDEs. You can download these datasets from [DaRUS data repository](https://darus.uni-stuttgart.de/dataset.xhtml?persistentId=doi:10.18419/darus-2986). The data files used in our work are as follows:
 
 | PDE | file name | file size | 
 | :--- | :--- | :---: |
@@ -54,53 +58,56 @@ Download data file from https://darus.uni-stuttgart.de/dataset.xhtml?persistentI
 | 2D Shallow Water | 2D_rdb_NA_NA.h5 | 6.2G |
 | 3D Compressible NS | 3D_CFD_Rand_M1.0_Eta1e-08_Zeta1e-08 _periodic_Train.hdf5 | 83G |
 
-#### self-generated data
+If you use PDEBench datasets in your reseach, please cite their papers:
+
+[PDEBench: An Extensive Benchmark for Scientific Machine Learning - NeurIPS'2022](https://arxiv.org/abs/2210.07182)
+
+```
+@inproceedings{PDEBench2022,
+author = {Takamoto, Makoto and Praditia, Timothy and Leiteritz, Raphael and MacKinlay, Dan and Alesiani, Francesco and Pflüger, Dirk and Niepert, Mathias},
+title = {{PDEBench: An Extensive Benchmark for Scientific Machine Learning}},
+year = {2022},
+booktitle = {36th Conference on Neural Information Processing Systems (NeurIPS 2022) Track on Datasets and Benchmarks},
+url = {https://arxiv.org/abs/2210.07182}
+}
+```
+
+[PDEBench Datasets - NeurIPS'2022](https://doi.org/10.18419/darus-2986)
+
+```
+@data{darus-2986_2022,
+author = {Takamoto, Makoto and Praditia, Timothy and Leiteritz, Raphael and MacKinlay, Dan and Alesiani, Francesco and Pflüger, Dirk and Niepert, Mathias},
+publisher = {DaRUS},
+title = {{PDEBench Datasets}},
+year = {2022},
+doi = {10.18419/darus-2986},
+url = {https://doi.org/10.18419/darus-2986}
+}
+```
+</details>
+
+#### Self-generated Data
 
 comming soon
 
-## Get started
-
-In this work, we provide code reference of 12 advanced NN methods, including 6 function learning-based NN methods: [DRM](https://arxiv.org/abs/1710.00211), [PINN](https://www.sciencedirect.com/science/article/abs/pii/S0021999118307125), [WAN](https://arxiv.org/abs/1907.08272), [DFLM](https://arxiv.org/abs/2001.06145), [RFM](https://arxiv.org/abs/2207.13380), [DFVM](https://arxiv.org/abs/2305.06863v2), and 6 operator learning-based NN methods: [U-Net](https://arxiv.org/abs/1505.04597), [MPNN](https://arxiv.org/abs/2202.03376), [FNO](https://arxiv.org/abs/2010.08895), [DeepONet](https://arxiv.org/abs/1910.03193), [PINO](https://arxiv.org/abs/2111.03794), [U-NO](https://arxiv.org/abs/2204.11127). The source code can be found in [models](https://github.com/zhouzy36/PDENNEval/tree/main/models). The relevant code files for the most of methods (DeepONet, DFVM, FNO, MPNN, PINNs, PINO, UNet, UNO) are saved in a subfolder named after the method name. And it contains at least the following contents:
-* `config`(folder): contains yaml configuration files for solving different PDEs using this method. All arguments for model training and testing are saved in this file.
-* `{model name}.py`: contains implementation of evaluated model.
-* `train.py`: contains training and testing scripts.
-* `utils.py`: contains code related to data reading and some tool functions, such as data format conversion, random seed initialization, timer and etc.
-
-`metrics.py` contains implementation of metric functions shared by most of NN methods.
-
-### Train 
-
-1. Check configuration file:
-    1. `file_name` and `saved_folder` are correct;
-    2. `if_training` is `True`
-2. Run command:
-```bash
-CUDA_VISIBLE_DEVICES=0 python train.py ${config file path}
-```
-
-### Resume training
-
-1. Modify configuration file:
-    1. Make sure `if_training` is `True`;
-    2. Set `continue_training` to `True`;
-    3. Set `model_path` to the checkpoint path where traing restart;
-2. Run command:
-```bash
-CUDA_VISIBLE_DEVICES=0 python train.py ${config file path}
-```
-
-### Test
-
-1. Modify configuration file:
-    1. Set `if_training` to `False`;
-    2. Set `model_path` to the checkpoint path where the model to be evaluated is saved.
-2. Run command:
-```bash
-CUDA_VISIBLE_DEVICES=0 python train.py ${config file}
-```
+## Getting Started
 
 ## Contributors
 
 Changye He, [Haolong Fan](https://github.com/fhl2000), Hongji Li, [Jianhuan Cen](https://github.com/12138xs), Liao Chen
 
 ## Citation
+
+Our work is based on many previous work. If you use the corresponding codes, please cite their papers. In details:
+
+DeepONet:
+
+MPNN:
+
+FNO:
+
+U-NO:
+
+DeepXDE:
+
+SeqLip:
