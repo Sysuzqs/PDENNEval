@@ -60,7 +60,11 @@ PDEBench provides large datasets covering wide range PDEs. You can download thes
 
 If you use PDEBench datasets in your reseach, please cite their papers:
 
-[PDEBench: An Extensive Benchmark for Scientific Machine Learning - NeurIPS'2022](https://arxiv.org/abs/2210.07182)
+<details>
+<summary>
+    <a href="https://arxiv.org/abs/2210.07182">PDEBench: An Extensive Benchmark for Scientific Machine Learning - NeurIPS'2022 </a>
+</summary>
+<br/>
 
 ```
 @inproceedings{PDEBench2022,
@@ -72,7 +76,14 @@ url = {https://arxiv.org/abs/2210.07182}
 }
 ```
 
-[PDEBench Datasets - NeurIPS'2022](https://doi.org/10.18419/darus-2986)
+</details>
+
+
+<details>
+<summary>
+    <a href="https://doi.org/10.18419/darus-2986">PDEBench Datasets - NeurIPS'2022 </a>
+</summary>
+<br/>
 
 ```
 @data{darus-2986_2022,
@@ -92,22 +103,118 @@ comming soon
 
 ## Getting Started
 
+
+
 ## Contributors
 
-Changye He, [Haolong Fan](https://github.com/fhl2000), Hongji Li, [Jianhuan Cen](https://github.com/12138xs), Liao Chen
+[Changye He](https://github.com/Hechy23), [Haolong Fan](https://github.com/fhl2000), [Hongji Li](https://github.com/Lowbcgz), [Jianhuan Cen](https://github.com/12138xs), [Liao Chen](https://github.com/liaochenl)
 
 ## Citation
 
 Our work is based on many previous work. If you use the corresponding codes, please cite their papers. In details:
 
-DeepONet:
+<details>
+<summary>
+DeepONet
+</summary>
+<br/>
 
-MPNN:
+```
+@article{lu2021learning,
+  title={Learning nonlinear operators via DeepONet based on the universal approximation theorem of operators},
+  author={Lu, Lu and Jin, Pengzhan and Pang, Guofei and Zhang, Zhongqiang and Karniadakis, George Em},
+  journal={Nature machine intelligence},
+  volume={3},
+  number={3},
+  pages={218--229},
+  year={2021},
+  publisher={Nature Publishing Group UK London}
+}
+```
+</details>
 
-FNO:
+<details>
+<summary>
+MPNN
+</summary>
+<br/>
 
-U-NO:
+```
+@article{brandstetter2022message,
+  title={Message passing neural PDE solvers},
+  author={Brandstetter, Johannes and Worrall, Daniel and Welling, Max},
+  journal={arXiv preprint arXiv:2202.03376},
+  year={2022}
+}
+```
+</details>
 
-DeepXDE:
+<details>
+<summary>
+FNO
+</summary>
+<br/>
 
-SeqLip:
+```
+@article{li2020fourier,
+  title={Fourier neural operator for parametric partial differential equations},
+  author={Li, Zongyi and Kovachki, Nikola and Azizzadenesheli, Kamyar and Liu, Burigede and Bhattacharya, Kaushik and Stuart, Andrew and Anandkumar, Anima},
+  journal={arXiv preprint arXiv:2010.08895},
+  year={2020}
+}
+```
+</details>
+
+<details>
+<summary>
+U-NO
+</summary>
+<br/>
+
+```
+@article{rahman2022u,
+  title={U-no: U-shaped neural operators},
+  author={Rahman, Md Ashiqur and Ross, Zachary E and Azizzadenesheli, Kamyar},
+  journal={arXiv preprint arXiv:2204.11127},
+  year={2022}
+}
+```
+</details>
+
+<details>
+<summary>
+DeepXDE
+</summary>
+<br/>
+
+:
+```
+@article{lu2021deepxde,
+  title={DeepXDE: A deep learning library for solving differential equations},
+  author={Lu, Lu and Meng, Xuhui and Mao, Zhiping and Karniadakis, George Em},
+  journal={SIAM review},
+  volume={63},
+  number={1},
+  pages={208--228},
+  year={2021},
+  publisher={SIAM}
+}
+```
+</details>
+
+<details>
+<summary>
+SeqLip
+</summary>
+<br/>
+
+```
+@article{virmaux2018lipschitz,
+  title={Lipschitz regularity of deep neural networks: analysis and efficient estimation},
+  author={Virmaux, Aladin and Scaman, Kevin},
+  journal={Advances in Neural Information Processing Systems},
+  volume={31},
+  year={2018}
+}
+```
+</details>

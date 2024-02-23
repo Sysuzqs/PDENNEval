@@ -1,0 +1,27 @@
+model_name: 'PINN'
+
+scenario: 'diff-sorp'
+
+pde: '1dDiff-sorp'
+model_update: 500
+filename: '1D_diff-sorp_NA_NA.h5'
+epochs: 25000
+learning_rate: 1.e-3
+seed: '9000'
+# unused arguments
+input_ch: 0
+output_ch: 1
+root_path: '/home/data2/fluidbench/1D/diffusion-sorption/'
+val_num: 1
+if_periodic_bc: False
+aux_params: 0
+val_batch_idx: 9000
+
+
+# test
+model_path: '/home/hechangye/PDEBench-main/pdebench/models/1D_diff-sorp_NA_NA.h5_9000_PINN.pt-25000.pt'
+
+dataset:
+ reduced_resolution: 4
+ reduced_resolution_t: 5
+ 

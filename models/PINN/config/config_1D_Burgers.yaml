@@ -1,0 +1,26 @@
+model_name: 'PINN'
+
+scenario: 'burgers'
+
+pde: '2dBgs'
+model_update: 500
+filename: '2D_Burgers_Nu0.001.hdf5'
+epochs: 25000
+learning_rate: 1.e-3
+seed: '0900'
+val_batch_idx: 0900
+
+root_path: '/home/data2/fluidbench/2D/Burgers/'
+val_num: 1
+if_periodic_bc: True
+aux_params: [0.001]
+# unused
+input_ch: 3
+output_ch: 2
+
+# test
+model_path: '/home/hechangye/PDEBench-main/pdebench/models/2D_Burgers_Nu0.001.hdf5_0900_PINN.pt-25000.pt'
+
+dataset:
+ reduced_resolution: 4
+ reduced_resolution_t: 5

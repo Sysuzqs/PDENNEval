@@ -1,0 +1,27 @@
+model_name: 'PINN'
+scenario: 'pde1D'
+
+pde: '1dAC'
+model_update: 500
+filename: '1D_Allen-Cahn_0.0001_5.hdf5'
+epochs: 25000
+input_ch: 2
+output_ch: 1
+learning_rate: 1.e-3
+root_path: '/home/data2/fluidbench/1D/Allen-Cahn/'
+val_num: 1
+if_periodic_bc: True
+period: 5000
+val_time: 1.0
+val_batch_idx: 9000
+aux_params: [0.0001, 5.0]
+
+# unused
+seed: '9000'
+
+# test
+model_path: '/home/hechangye/PDEBench-main/pdebench/models/1D_Allen-Cahn_0.0001_5.hdf5_9000_PINN.pt-25000.pt'
+
+dataset:
+ reduced_resolution: 4
+ reduced_resolution_t: 5

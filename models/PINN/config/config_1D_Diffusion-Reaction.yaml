@@ -1,0 +1,26 @@
+model_name: 'PINN'
+
+scenario: 'diff-react'
+pde: '2dDiff-react'
+model_update: 500
+filename: '2D_diff-react_NA_NA.h5'
+epochs: 25000
+learning_rate: 1.e-3
+seed: '0900'
+# unused arguments
+input_ch: 3
+output_ch: 2
+root_path: '/home/data2/fluidbench/2D/diffusion-reaction/'
+val_num: 1
+if_periodic_bc: False
+aux_params: 0
+
+
+
+# test
+model_path: '/home/hechangye/PDEBench-main/pdebench/models/2D_CFD_Rand_M0.1_Eta0.1_Zeta0.1_periodic_128_Train.hdf5_9000_PINN.pt-25000.pt'
+val_batch_idx: 900
+
+dataset:
+ reduced_resolution: 4
+ reduced_resolution_t: 5
