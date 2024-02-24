@@ -103,7 +103,11 @@ comming soon
 
 ## Getting Started
 
+### Train and Test
 
+Our implementation is saved in the `models` directory. The relevant code files for each methods are saved in a subdirectorys named after the method name. If you want to evaluate a certain method, please enter the corresponding subdirectory. A detailed guidance is provided to help you running training and testing.
+
+### Lipschitz Estimation
 
 ## Contributors
 

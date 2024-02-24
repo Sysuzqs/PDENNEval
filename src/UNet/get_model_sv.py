@@ -2,12 +2,14 @@
 import argparse
 from functools import reduce
 import os
+import sys
 from torch.utils.data import DataLoader
 import yaml
 
 from train import get_model, get_dataset
 from utils import setup_seed
 
+sys.path.append('..')
 from lipschitz_utils import *
 from max_eigenvalue import k_generic_power_method, lipschitz_bn
 
