@@ -3,8 +3,11 @@ import argparse
 import os
 from torch.utils.data import DataLoader
 import yaml
+import sys
+
 from train import get_model, get_dataset
 
+sys.path.append('..')
 from lipschitz_utils import *
 from seqlip import optim_nn_pca_greedy
 

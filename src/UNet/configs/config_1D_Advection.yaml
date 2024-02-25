@@ -16,7 +16,7 @@ training_type: "autoregressive"
 pushforward: True
 initial_step: 10
 unroll_step: 20
-epochs: 1
+epochs: 500
 # datasets args
 dataset:
   single_file: True

@@ -107,7 +107,9 @@ comming soon
 
 Our implementation is saved in the `models` directory. The relevant code files for each methods are saved in a subdirectorys named after the method name. If you want to evaluate a certain method, please enter the corresponding subdirectory. A detailed guidance is provided to help you running training and testing.
 
-### Lipschitz Estimation
+### Estimate Lipschitz Upper Bound
+
+We use [SeqLip](https://arxiv.org/abs/1805.10965) algorithm to estimate the Lipschitz upper bound of trained neural networks. Specifically, we provide estimation scripts for UNet, DeepONet, and all methods that only use MLP. You can find these scripts in the folder corresponding to each method.
 
 ## Contributors
 
