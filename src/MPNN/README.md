@@ -16,13 +16,13 @@ The explanations of some MPNN specific args:
     * `neighbors`: int, the number of neighbors used for message passing. By default, we set it to 3 for 1D problems and 1 for 2D problems.
     * `time_window`: int, the number of input/output timesteps. We set it to 10 that equals to the value of `initial_step` args in other autoregressive methods for fair comparison.
     * `unrolling`: int, the number of unrolled forward steps. (default 1)
-    * `unroll_step`: int, the number of time steps to backpropagate during pushforward training. Because there are slight difference (read [here]() for details) in training strategy between MPNN and other autoregressive methods, this arg is borrowed from other autoregressive methods to ensure the number of iterations in one MPNN training epoch is almost equal to others. (default 1)
+    * `unroll_step`: int, the number of time steps to backpropagate during pushforward training. Because there are slight differences (read [here](https://github.com/zhouzy36/PDENNEval/tree/main/src/MPNN#training-strategy) for details) in training strategy between MPNN and other autoregressive methods, this arg is borrowed from other autoregressive methods to ensure the number of iterations in one MPNN training epoch is almost equal to others. (default 1)
 
 * model args:
     * `hidden_features`: int, the number of node feature dimensions.
     * `hidden_layer`: int, the number of GNN layers.
     
-
+For reproducibility, we give our training hyperparameters for solving different PDEs.
 
 | PDE Names                   | spatial resolution / downsample rate | temporal resolution / downsample rate | lr    | batch size | weight decay | number of neighbors | epochs | lr schedule        |
 | :-------------------------- | :----------------- | :------------------ | :---- | :--------- | :----------- | :------------------ | :----- | :----------------- |
@@ -39,11 +39,14 @@ The explanations of some MPNN specific args:
 | 2D Allen-Cahn               | 128/2              | 101/1               | 1.e-4 | 8          | 1.e-8        | 1                   | 500    | "StepLR", 100, 0.5 |
 | 2D Black-Scholes-Barenblatt | 128/2              | 101/1               | 1.e-4 | 8          | 1.e-8        | 1                   | 500    | "StepLR", 100, 0.5 |
 
-For reproducibility, we give our training hyperparameters for solving different PDEs.
 
-## Difference in training strategy
+## Training strategy
 
+*Single Step training*
 
+*Autoregressive training*
+
+*Pushforward trick*
 
 ## Train
 
