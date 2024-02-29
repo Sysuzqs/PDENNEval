@@ -52,14 +52,16 @@ In practice, the soltuions of first $l$ time steps denoted as $\{u^0,...,u^k\}$ 
 
 ## Training strategy
 
-**Single step training**: The input to model always comes from ground truth data. So that the loss function has the form: 
+**Single step training**: The input to model always comes from ground truth data. So that the loss function has the form:
+
 $$
 \mathcal{L}=\frac{1}{N}\sum_{k=1}^{N}l(f_{\theta}(u^{k-l+1},...,u^k), u^k).
 $$
 
 **Autoregressive training**: Standard training strategy. In addition to the initial input comes from ground truth data, the intermediate inputs comes from model prediction. The loss function has the same form as above:
 
-**Pushforward trick**: This trick is proposed in [MPNN](https://arxiv.org/abs/2202.03376) to encourage more stable and faster autoregressive training. With pushforward trick, we only backpropagate gradient on the last $M$ (`unroll_step`) time steps . We take the implementation from [PDEBench](https://arxiv.org/abs/2210.07182). The loss function has the form: 
+**Pushforward trick**: This trick is proposed in [MPNN](https://arxiv.org/abs/2202.03376) to encourage more stable and faster autoregressive training. With pushforward trick, we only backpropagate gradient on the last $M$ (`unroll_step`) time steps . We take the implementation from [PDEBench](https://arxiv.org/abs/2210.07182). The loss function has the form:
+
 $$
 \mathcal{L}=\frac{1}{M}\sum_{k=N-M+1}^{N}l(f_{\theta}(u^{k-l+1},...,u^k), u^k).
 $$
