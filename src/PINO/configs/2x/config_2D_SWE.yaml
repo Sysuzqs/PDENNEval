@@ -41,17 +41,17 @@ dataset:
   reduced_batch: 1
   test_ratio: 0.1
   if_grid_norm : False
-# dataloader相关参数
+# dataloader args
 dataloader:
   batch_size: 2
   num_workers: 1
   pin_memory: False
-# 优化器相关参数
+# optimizer args
 optimizer:
   name: 'Adam'
   lr: 1.e-3
   weight_decay : 1.e-4
-# scheduler相关参数
+# scheduler args
 scheduler:
   name: "StepLR"
   step_size: 50
