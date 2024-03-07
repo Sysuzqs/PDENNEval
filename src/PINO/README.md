@@ -51,7 +51,8 @@ The loss function has the form:
 
 $$
 \mathcal{L}=\frac{1}{N_b}\sum_{i=1}^{N_b}(W_{1}*l(u_{\text{pred}}, u) + W_{2}*l(\mathcal{F}(u_{\text{pred}}),\mathcal{F}(u))+ W_{3}*l(u^{0}_{\text{pred}},u^{0}))
-$$ 
+$$
+
 where $N_b$ is the batchsize, $u$ and $u_{\text{pred}}$ are the ground truth solution and the predicted solution respectively, $\mathcal{F}$ represents the PDE operators and $l$ is MSE in our implementation. $W_{1}$,$W_{2}$,$W_{3}$ are the weight for data, physics and initial condition, respectively.
 
 ## Train
