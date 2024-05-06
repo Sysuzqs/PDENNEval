@@ -113,7 +113,7 @@ We use [SeqLip](https://arxiv.org/abs/1805.10965) algorithm to estimate the Lips
 
 ## Contributors
 
-[Changye He](https://github.com/Hechy23), [Haolong Fan](https://github.com/fhl2000), [Hongji Li](https://github.com/Lowbcgz), [Jianhuan Cen](https://github.com/12138xs), [Liao Chen](https://github.com/liaochenl)
+[Changye He](https://github.com/Hechy23), [Haolong Fan](https://github.com/fhl2000), [Hongji Li](https://github.com/Lowbcgz), [Jianhuan Cen](https://github.com/12138xs), [Liao Chen](https://github.com/liaochenl), [Ping Wei](http://github.com/weip7), [Ziyang Zhou](https://github.com/zhouzy36)
 
 ## Citation
 

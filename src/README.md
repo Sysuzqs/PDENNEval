@@ -1,6 +1,6 @@
 ## Overview
 
-We offer training and testing code for 12 neural network (NN) methods, with each method's code saved in a subdirectory named after the method name. Each subdirectory typically has the following content:
+We offer training and testing codes for 12 neural network (NN) methods, with each method's code saved in a subdirectory named after the method name. Each subdirectory typically has the following content:
 ```bash
 .
 ├── configs
