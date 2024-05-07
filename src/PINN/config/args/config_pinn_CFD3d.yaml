@@ -1,0 +1,25 @@
+model_name: 'PINN'
+scenario: 'CFD3D'
+
+pde: '3dCFD'
+model_update: 500
+filename: '3D_CFD_Rand_M1.0_Eta1e-08_Zeta1e-08_periodic_Train.hdf5'
+epochs: 25000
+input_ch: 4
+output_ch: 5
+learning_rate: 1.e-3
+root_path: '/home/data2/fluidbench/3D/CFD/'
+val_num: 1
+if_periodic_bc: True
+period: 5000
+val_time: 1.0
+val_batch_idx: 90
+aux_params: [1.6666666667]
+seed: '90'
+
+# test
+model_path: '/home/hechangye/PDEBench-main/pdebench/models/3D_CFD_Rand_M1.0_Eta1e-08_Zeta1e-08_periodic_Train.hdf5_9000_PINN.pt-25000.pt'
+
+dataset:
+ reduced_resolution: 4
+ reduced_resolution_t: 5

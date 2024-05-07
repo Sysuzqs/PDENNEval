@@ -1,0 +1,36 @@
+model_name: 'PINN'
+scenario: 'Euler3D'
+
+pde: '3dEuler'
+model_update: 500
+filename: '3D_CFD_rand_M1.0_periodic_Train.hdf5'
+epochs: 25000
+input_ch: 4
+output_ch: 5
+learning_rate: 1.e-3
+root_path: '/home/data2/fluidbench/3D/Euler/'
+val_num: 1
+if_periodic_bc: True
+period: 5000
+val_time: 1.0
+val_batch_idx: 90
+aux_params: [1.6666666667]
+seed: '90'
+
+# test
+model_path: '/home/hechangye/PDEBench-main/pdebench/models/3D_CFD_rand_M1.0_periodic_Train.hdf5_90_PINN.pt-25000.pt'
+
+dataset:
+ reduced_resolution: 4
+ reduced_resolution_t: 5
+
+#  [array([ 4.7355027 ,  0.24356566,  0.24693203,  0.23909219, 51.20047   ],
+#       dtype=float32), array([0.93962353, 1.0036701 , 1.0017502 , 1.0147917 , 1.0002831 ],
+#       dtype=float32), array([4.7189445e+00, 2.9209936e-02, 1.2205853e-02, 2.9940469e-02,
+#        5.0844646e+01], dtype=float32), array([ 6.4091897,  1.12616  ,  1.1862221,  1.0666074, 80.9295   ],
+#       dtype=float32), array(35.980606, dtype=float32), array([[ 1.2504994 ,  0.04135204,         nan],
+#        [ 0.04851424,  0.02999808,         nan],
+#        [ 0.04641723,  0.02949731,         nan],
+#        [ 0.04671752,  0.03092676,         nan],
+#        [13.8034315 ,  0.59176654,         nan]], dtype=float32)]
+# tensor([0.9392, 1.0076, 1.0057, 1.0246, 1.0003], device='cpu')
