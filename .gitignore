@@ -162,3 +162,4 @@ cython_debug/
 # PDENNEval
 checkpoint/
 logs/
+PDENNEval_appendix.pdf
