@@ -99,7 +99,14 @@ url = {https://doi.org/10.18419/darus-2986}
 
 #### Self-generated Data
 
-comming soon
+| PDE | file size | download link | 
+| :--- | :--- | :---: |
+| 1D Allen-Cahn Equation | 3.9G | [link](http://aisccc.cn/database/data-details?id=52&type=resource) |
+| 1D Cahn-Hilliard Equation | 3.9G | [link](http://aisccc.cn/database/data-details?id=48&type=resource) | 
+| 2D Allen-Cahn Equation | 6.2G | [link](http://aisccc.cn/database/data-details?id=56&type=resource) |
+| 2D Black-Scholes-Barenblatt Equation | 6.2G | [link](http://aisccc.cn/database/data-details?id=53&type=resource) |
+| 3D Euler Equation | 83G | [link](http://aisccc.cn/database/data-details?id=54&type=resource) | 
+| 3D Maxwell Equation | 5.9G | [link](http://aisccc.cn/database/data-details?id=55&type=resource) | 
 
 ## Getting Started
 
