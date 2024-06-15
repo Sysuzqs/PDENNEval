@@ -47,7 +47,7 @@ The data used in our evaluation are from two sources: [PDEBench](https://arxiv.o
 PDEBench provides large datasets covering wide range PDEs. You can download these datasets from [DaRUS data repository](https://darus.uni-stuttgart.de/dataset.xhtml?persistentId=doi:10.18419/darus-2986). The data files used in our work are as follows:
 
 | PDE | file name | file size | 
-| :--- | :--- | :---: |
+| :--- | :---: | :---: |
 | 1D Advection | 1D_Advection_Sols_beta0.1.hdf5 | 7.7G |
 | 1D Diffusion-Reaction | ReacDiff_Nu0.5_Rho1.0.hdf5 | 3.9G | 
 | 1D Burgers| 1D_Burgers_Sols_Nu0.001.hdf5 | 7.7G |
