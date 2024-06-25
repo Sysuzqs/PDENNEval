@@ -13,9 +13,9 @@ epochs: 25000
 input_ch: 2
 output_ch: 1
 learning_rate: 1.e-3
-# root_path: '/home/data2/fluidbench/1D/ReactionDiffusion/'
-# root_path: '/home/data2/fluidbench/1D/Advection/'
-root_path: '/home/data2/fluidbench/1D/Burgers/Train/'
+# root_path: '/home/data2/PDEData/1D/ReactionDiffusion/'
+# root_path: '/home/data2/PDEData/1D/Advection/'
+root_path: '/home/data2/PDEData/1D/Burgers/Train/'
 val_num: 1
 
 # ReacDiff_Nu0.5_Rho1.0.hdf5

@@ -10,7 +10,7 @@ learning_rate: 1.e-3
 seed: '0900'
 val_batch_idx: 0900
 
-root_path: '/home/data2/fluidbench/2D/Burgers/'
+root_path: '/home/data2/PDEData/2D/Burgers/'
 val_num: 1
 if_periodic_bc: True
 aux_params: [0.001]

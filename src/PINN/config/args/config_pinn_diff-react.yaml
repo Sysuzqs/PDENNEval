@@ -10,7 +10,7 @@ seed: '0900'
 # unused arguments
 input_ch: 3
 output_ch: 2
-root_path: '/home/data2/fluidbench/2D/diffusion-reaction/'
+root_path: '/home/data2/PDEData/2D/diffusion-reaction/'
 val_num: 1
 if_periodic_bc: False
 aux_params: 0

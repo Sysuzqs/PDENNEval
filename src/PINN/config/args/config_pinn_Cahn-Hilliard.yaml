@@ -8,7 +8,7 @@ epochs: 25000
 input_ch: 2
 output_ch: 1
 learning_rate: 1.e-3
-root_path: '/home/data2/fluidbench/1D/Cahn-Hilliard/'
+root_path: '/home/data2/PDEData/1D/Cahn-Hilliard/'
 val_num: 1
 if_periodic_bc: True
 period: 5000

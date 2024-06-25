@@ -11,7 +11,7 @@ seed: '9000'
 # unused arguments
 input_ch: 0
 output_ch: 1
-root_path: '/home/data2/fluidbench/1D/diffusion-sorption/'
+root_path: '/home/data2/PDEData/1D/diffusion-sorption/'
 val_num: 1
 if_periodic_bc: False
 aux_params: 0

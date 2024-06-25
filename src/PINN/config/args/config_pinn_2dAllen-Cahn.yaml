@@ -8,7 +8,7 @@ epochs: 25000
 input_ch: 3
 output_ch: 1
 learning_rate: 1.e-3
-root_path: '/home/data2/fluidbench/2D/Allen-Cahn/'
+root_path: '/home/data2/PDEData/2D/Allen-Cahn/'
 val_num: 1
 if_periodic_bc: True
 period: 5000
