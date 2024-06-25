@@ -23,7 +23,7 @@ def main(config):
                 seed=cfg['seed'],
                 input_ch=cfg['input_ch'],
                 output_ch=cfg['output_ch'],
-                root_path=cfg['data_path'],
+                root_path=cfg['root_path'],
                 val_num=cfg['val_num'],
                 if_periodic_bc=cfg['if_periodic_bc'],
                 aux_params=cfg['aux_params'],
