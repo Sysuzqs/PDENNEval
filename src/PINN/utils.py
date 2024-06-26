@@ -123,11 +123,11 @@ class PINNDataset2D(Dataset):
             seed_group = h5_file[seed]
 
             # extract config
-            if len(filename)>=10 and filename[0:10] != '2D_Burgers':
-                self.config = yaml.load(seed_group.attrs["config"], Loader=yaml.SafeLoader)
-            else:
+            if len(filename)>=10 and filename[0:10] == '2D_Burgers':
                 self.config = yaml.load("work_dir: ${hydra:runtime.cwd}\ndata_dir: ${work_dir}/data/\noutput_path: /pfs/work7/workspace/scratch/st_ac131224-pde_test/data//Bgs/train_0000.h5\nname: null\nsim:\n  Du: 0.001\n  Dv: 0.005\n  k: 0.005\n  t: 1\n  tdim: 101\n  x_left: 0.0\n  x_right: 1.0\n  xdim: 128\n  y_bottom: 0.0\n  y_top: 1.0\n  ydim: 128\n  'n': 1\n  seed: 0\ndefault_mode: true\n", Loader=yaml.SafeLoader)
-            
+            else:
+                self.config = yaml.load(seed_group.attrs["config"], Loader=yaml.SafeLoader)
+                
             # build input data from individual dimensions
             # dim x = [x]
             self.data_grid_x = torch.tensor(seed_group["grid"]["x"], dtype=torch.float)
