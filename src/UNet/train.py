@@ -176,9 +176,11 @@ def test_loop(dataloader, model, device, initial_step, metric_names=['MSE', 'RMS
     for name in metric_names:
         res_dict[name] = []
     # test loop
+    time_spend = []
     for x, y in dataloader:
         x = x.to(device)
         y = y.to(device)
+        tic = time.time()
         pred = y[..., :initial_step, :]
         input_shape = list(x.shape)[:-2]
         input_shape.append(-1) # (bs, x1, ..., xd, -1)
@@ -194,6 +196,8 @@ def test_loop(dataloader, model, device, initial_step, metric_names=['MSE', 'RMS
                 model_output = model(model_input).permute(output_permute).unsqueeze(-2)
             pred = torch.cat((pred, model_output), dim=-2)
             x = torch.cat((x[..., 1:, :], model_output), dim=-2)
+        toc = time.time()
+        time_spend.append(toc-tic)
         # compute metric
         for name in metric_names:
             metric_fn = getattr(metrics, name)
@@ -208,7 +212,7 @@ def test_loop(dataloader, model, device, initial_step, metric_names=['MSE', 'RMS
             res = torch.cat(res_list, dim=0)
             res = torch.mean(res, dim=0)
         res_dict[name] = res
-    return res_dict
+    return res_dict, time_spend
 
 
 def main(args):
@@ -222,9 +226,14 @@ def main(args):
                         f"_wd{args['optimizer']['weight_decay']}" +
                         f"_{args['training_type']}")
     saved_dir = os.path.join(args["output_dir"], os.path.splitext(args["dataset"]["file_name"])[0])
-    # prepare directory 
-    if not os.path.exists(saved_dir):
-        os.makedirs(saved_dir)
+    
+    # prepare directory
+    if args["if_training"]:
+        if not os.path.exists(saved_dir):
+            os.makedirs(saved_dir)
+        if args["tensorboard"]:
+            log_path = os.path.join(args['log_dir'], os.path.splitext(args["dataset"]["file_name"])[0], saved_model_name)
+            writer = SummaryWriter(log_path)
 
     # data and dataloader
     train_data, val_data = get_dataset(args)
@@ -250,11 +259,6 @@ def main(args):
         print("Training type: one step")
     print(f"Unroll step: {unroll_step}")
 
-    # visualize
-    if args["if_training"] and args["tensorboard"]:
-        log_path = os.path.join(args['log_dir'], os.path.splitext(args["dataset"]["file_name"])[0], saved_model_name)
-        writer = SummaryWriter(log_path)
-
     # if spatial_dim == 3:
     #     torch.backends.cudnn.enabled = False
 
@@ -271,8 +275,9 @@ def main(args):
             model = nn.DataParallel(model)
         model.to(device)
         print("Start testing")
-        res = test_loop(val_loader, model, device, initial_step)
+        res, time_spend = test_loop(val_loader, model, device, initial_step)
         print(res)
+        print(f"Total test time: {np.sum(time_spend)}s, average batch time: {np.mean(time_spend)}s, average batch time (drop first): {np.mean(time_spend[1:])}s")
         print("Done")
         return
     # if continue training, resume model from checkpoint
