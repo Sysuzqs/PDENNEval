@@ -46,7 +46,7 @@ The data used in our evaluation are from two sources: [PDEBench](https://arxiv.o
 
 PDEBench provides large datasets covering wide range PDEs. You can download these datasets from [DaRUS data repository](https://darus.uni-stuttgart.de/dataset.xhtml?persistentId=doi:10.18419/darus-2986). The data files used in our work are as follows:
 
-| PDE | file name | file size | 
+| PDE | File Name | File Size | 
 | :--- | :---: | :---: |
 | 1D Advection | 1D_Advection_Sols_beta0.1.hdf5 | 7.7G |
 | 1D Diffusion-Reaction | ReacDiff_Nu0.5_Rho1.0.hdf5 | 3.9G | 
@@ -99,14 +99,15 @@ url = {https://doi.org/10.18419/darus-2986}
 
 #### Self-generated Data
 
-| PDE | file size | download link | 
+| PDE | File Size | Download Link | 
 | :--- | :--- | :---: |
-| 1D Allen-Cahn Equation | 3.9G | [link](http://aisccc.cn/database/data-details?id=52&type=resource) |
-| 1D Cahn-Hilliard Equation | 3.9G | [link](http://aisccc.cn/database/data-details?id=48&type=resource) | 
-| 2D Allen-Cahn Equation | 6.2G | [link](http://aisccc.cn/database/data-details?id=56&type=resource) |
-| 2D Black-Scholes-Barenblatt Equation | 6.2G | [link](http://aisccc.cn/database/data-details?id=53&type=resource) |
-| 3D Euler Equation | 83G | [link](http://aisccc.cn/database/data-details?id=54&type=resource) | 
-| 3D Maxwell Equation | 5.9G | [link](http://aisccc.cn/database/data-details?id=55&type=resource) | 
+| 1D Allen-Cahn Equation | 3.9G | [AI4SC Website](http://aisccc.cn/database/data-details?id=52&type=resource), [Google Drive](https://drive.google.com/file/d/10Ee3EqcZyAE0s1Q_rO5XbrRwYZDYKf-o/view?usp=drive_link) |
+| 1D Cahn-Hilliard Equation | 3.9G | [AI4SC Website](http://aisccc.cn/database/data-details?id=48&type=resource), [Google Drive](https://drive.google.com/file/d/10D25VbDAnYtEOxSO18pw_o_BteBn5MnB/view?usp=drive_link) | 
+| 2D Allen-Cahn Equation | 6.2G | [AI4SC Website](http://aisccc.cn/database/data-details?id=56&type=resource), [Google Drive](https://drive.google.com/file/d/11AA7RAts9ErTaY7Qk4W3TWFu6OKp1RJx/view?usp=drive_link) |
+| 2D Black-Scholes-Barenblatt Equation | 6.2G | [AI4SC Website](http://aisccc.cn/database/data-details?id=53&type=resource), [Google Drive](https://drive.google.com/file/d/11WgIOSYR6UKk16G_NK82k0Y_QM7azQlH/view?usp=drive_link) |
+| 2D Burgers | 12.3G | AI4SC Website, [Google Drive](https://drive.google.com/file/d/11ICqL_oK52nCW5u3r31WUINtbPnRHGeo/view?usp=drive_link) | 
+| 3D Euler Equation | 83G | [AI4SC Website](http://aisccc.cn/database/data-details?id=54&type=resource), [Google Drive](https://drive.google.com/file/d/11aRPB5RdoDOH8nef3J96RpJANV-WhNv1/view?usp=drive_link) | 
+| 3D Maxwell Equation | 5.9G | [AI4SC Website](http://aisccc.cn/database/data-details?id=55&type=resource), Google Drive | 
 
 ## Getting Started
 
