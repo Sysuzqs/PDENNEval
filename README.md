@@ -1,5 +1,7 @@
 # PDENNEval
 
+The link to **PDENNEval** is: [https://www.ijcai.org/proceedings/2024/0573.pdf](https://www.ijcai.org/proceedings/2024/0573.pdf); the appendix can be found in **PDENNEval_appendix.pdf**.
+
 ## Introduction
 
 This is the official code repository for [PDENNEval: A Comprehensive Evaluation of Neural Network Methods for Solving PDEs](https://www.ijcai.org/proceedings/2024/573). PDENNEval conducts a comprehensive and systematic evaluation of 12 NN methods for PDEs, including 6 function learning-based NN methods: [DRM](https://arxiv.org/abs/1710.00211), [PINN](https://www.sciencedirect.com/science/article/abs/pii/S0021999118307125), [WAN](https://arxiv.org/abs/1907.08272), [DFLM](https://arxiv.org/abs/2001.06145), [RFM](https://arxiv.org/abs/2207.13380), [DFVM](https://arxiv.org/abs/2305.06863v2), and 6 operator learning-based NN methods: [U-Net](https://arxiv.org/abs/1505.04597), [MPNN](https://arxiv.org/abs/2202.03376), [FNO](https://arxiv.org/abs/2010.08895), [DeepONet](https://arxiv.org/abs/1910.03193), [PINO](https://arxiv.org/abs/2111.03794), [U-NO](https://arxiv.org/abs/2204.11127). In this repository, we provide code reference for all evaluated methods. If this repository is helpful to your research, please cite our paper.
