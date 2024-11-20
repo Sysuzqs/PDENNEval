@@ -21,7 +21,7 @@ epochs: 500
 dataset:
   single_file: True
   file_name: "1D_Burgers_Sols_Nu0.001.hdf5"
-  saved_folder: "/home/data2/fluidbench/1D/Burgers/Train/"
+  saved_folder: YOUR_DATASET_DIR_PATH
   reduced_resolution: 4
   reduced_resolution_t: 5
   reduced_batch: 1
