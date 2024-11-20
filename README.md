@@ -18,6 +18,8 @@ Create a conda environment and install dependencies (ours):
 * PyTorch 1.13.1
 * PyTorch Geometric (for MPNN)
 * DeepXDE 1.10.0 (for PINNs)
+* scipy (for RFM)
+* scikit-learn (for RFM)
 
 ```bash
 # create environment
@@ -34,6 +36,9 @@ conda env config vars set DDE_BACKEND=pytorch # set backend as pytorch
 # For MPNN
 pip install torch_geometric # install torch geometric
 conda install pytorch-cluster -c pyg # install torch cluster
+
+# For RFM
+pip install scipy scikit-learn
 
 # Other dependencies
 pip install h5py # to read dataset file in HDF5 format
