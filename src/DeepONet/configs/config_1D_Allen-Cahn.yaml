@@ -28,7 +28,7 @@ dataset:
   name : "1D_Allen_Cahn"
   single_file: True
   file_name: "1D_Allen-Cahn_0.0001_5.hdf5"
-  saved_folder: "/home/data2/fluidbench/1D/Allen-Cahn/"
+  saved_folder: YOUR_DATASET_DIR_PATH
   reduced_resolution: 4
   reduced_resolution_t: 1
   reduced_batch: 1

@@ -33,7 +33,7 @@ dataset:
   name : "2D_Burgers"
   single_file: False
   file_name: "2D_Burgers_Nu0.001.hdf5"
-  saved_folder: "/home/data2/fluidbench/2D/Burgers/"
+  saved_folder: YOUR_DATASET_DIR_PATH
   reduced_resolution: 2
   reduced_resolution_t: 1
   reduced_resolution_pde: 1

@@ -25,7 +25,7 @@ dataset:
   name : "1D_diffusion_sorption"
   single_file: False
   file_name: "1D_diff-sorp_NA_NA.h5"
-  saved_folder: "/home/data2/fluidbench/1D/diffusion-sorption/"
+  saved_folder: YOUR_DATASET_DIR_PATH
   reduced_resolution: 4
   reduced_resolution_t: 1
   reduced_batch: 1

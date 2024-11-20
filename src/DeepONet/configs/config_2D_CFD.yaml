@@ -25,7 +25,7 @@ dataset:
   name : "2D_Compressible_NS"
   single_file: True
   file_name: "2D_CFD_Rand_M0.1_Eta0.1_Zeta0.1_periodic_128_Train.hdf5"
-  saved_folder: "/home/data2/fluidbench/2D/CFD/2D_Train_Rand/"
+  saved_folder: YOUR_DATASET_DIR_PATH
   reduced_resolution: 1
   reduced_resolution_t: 1
   reduced_batch: 1

@@ -33,7 +33,7 @@ dataset:
   name : "2D_SWE"
   single_file: False
   file_name: "2D_rdb_NA_NA.h5"
-  saved_folder: "/home/data2/fluidbench/2D/shallow-water/"
+  saved_folder: YOUR_DATASET_DIR_PATH
   reduced_resolution: 4
   reduced_resolution_t: 1
   reduced_resolution_pde: 1

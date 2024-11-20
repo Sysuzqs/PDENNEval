@@ -32,7 +32,7 @@ dataset:
   name : "Advection"
   single_file: True
   file_name: "1D_Advection_Sols_beta0.1.hdf5"
-  saved_folder: "/home/data2/fluidbench/1D/Advection/"
+  saved_folder: YOUR_DATASET_DIR_PATH
   reduced_resolution: 16 
   reduced_resolution_t: 5
   reduced_resolution_pde: 4
