@@ -18,35 +18,35 @@ parser.add_argument('--seed', type=int, default=0, metavar='N',
 parser.add_argument('--beta', type=int, default=1000, metavar='N',
                     help='weight of boundary loss (default: 1000)')
 seed = parser.parse_args().seed
-# Omega 空间域
+# Omega space domain
 DIMENSION = parser.parse_args().dimension     # Dimension
 a = [-1 for _ in range(DIMENSION)]
 b = [ 1 for _ in range(DIMENSION)]
-# Netword
-DIM_INPUT  = DIMENSION   # 输入维数
-NUM_UNIT   = 40          # 单层神经元个数
-DIM_OUTPUT = 1           # 输出维数
-NUM_LAYERS = 6           # 模型层数
+# Network
+DIM_INPUT  = DIMENSION   # Input dimension
+NUM_UNIT   = 40          # Number of neurons per layer
+DIM_OUTPUT = 1           # Output dimension
+NUM_LAYERS = 6           # Number of layers in the model
 # Optimizer
 IS_DECAY   = 0
-LEARN_RATE         = 1e-3    # 学习率
-LEARN_FREQUENCY    = 50     # 学习率变化间隔
+LEARN_RATE         = 1e-3    # Learning rate
+LEARN_FREQUENCY    = 50     # Learning rate change interval
 LEARN_LOWWER_BOUND = 1e-5
 LEARN_DECAY_RATE   = 0.99
 LOSS_FN            = nn.MSELoss()
 # Training
 CUDA_ORDER = "3"
-NUM_TRAIN_SMAPLE   = 10000    # 训练集大小
-NUM_TRAIN_TIMES    = 1       # 训练样本份数
-NUM_ITERATION      = 100000  # 单份样本训练次数
+NUM_TRAIN_SMAPLE   = 10000    # Training set size
+NUM_TRAIN_TIMES    = 1       # Number of training samples
+NUM_ITERATION      = 100000  # Number of iterations per sample
 # Re-sampling
 IS_RESAMPLE = 0
-SAMPLE_FREQUENCY   = 2000     # 重采样间隔
+SAMPLE_FREQUENCY   = 2000     # Resampling interval
 # Testing
 NUM_TEST_SAMPLE    = 10000
-TEST_FREQUENCY     = 1     # 输出间隔
+TEST_FREQUENCY     = 1     # Output interval
 # Loss weight
-BETA = 1000                  # 边界损失函数权重
+BETA = 1000                  # Weight of boundary loss function
 # Save model
 IS_SAVE_MODEL = 1
 
@@ -70,7 +70,7 @@ class PossionQuation(object):
         u = torch.where(x<0.5, x.pow(2), (x-1).pow(2))
         return u.reshape(-1,1).detach()
 
-    # 区域内部的采样
+    # Sampling inside the region
     def interior(self, N=100):
         X = []
         l_bounds = [-1, -1]
@@ -86,9 +86,9 @@ class PossionQuation(object):
         # X = torch.FloatTensor( sampleCubeQMC(self.D, l_bounds, u_bounds, N) )
         return X.requires_grad_(True).to(self.device)
 
-    # 边界采样
+    # Boundary sampling
     def boundary(self, n=100):
-        # sample on boundary of [-1,1]^2\[0,1]^2
+        # Sample on the boundary of [-1,1]^2\[0,1]^2
         x_boundary = []
         line1 = np.random.uniform(-1, 1, 2*n)
         line2 = np.random.uniform(-1, 0, n)
@@ -104,7 +104,7 @@ class PossionQuation(object):
         return x_boundary
 
 
-# 边界损失函数
+# Boundary loss function
 def loss_boundary(Eq, model, x_boundary):
     # x_boundary = Eq.boundary(100)
     u_theta    = model(x_boundary).reshape(-1,1)
@@ -175,7 +175,7 @@ def setup_seed(seed):
 def train_pipeline():
     # define device
     DEVICE = torch.device(f"cuda:{CUDA_ORDER}" if torch.cuda.is_available() else "cpu")
-    print(f"当前启用 {DEVICE}")
+    print(f"Currently using {DEVICE}")
     # define equation
     Eq = PossionQuation(DIMENSION, DEVICE)
     # define model
@@ -191,9 +191,9 @@ def train_pipeline():
     test_input = torch.FloatTensor(data[:,0:2]).to(DEVICE)
     test_output = torch.FloatTensor(data[:,2]).to(DEVICE)
 
-    # 网络迭代
-    elapsed_time     = 0    # 计时
-    training_history = []    # 记录数据
+    # Network iteration
+    elapsed_time     = 0    # Timing
+    training_history = []    # Record data
 
     for step in tqdm(range(NUM_ITERATION+1)):
         if IS_DECAY and step and step % LEARN_FREQUENCY == 0:

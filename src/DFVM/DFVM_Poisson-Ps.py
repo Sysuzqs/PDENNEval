@@ -8,7 +8,6 @@ import os
 import argparse
 from GenerateData import *
 
-
 # Parser
 parser = argparse.ArgumentParser(description='DFVM')
 parser.add_argument('--dimension', type=int, default=100, metavar='N',
@@ -16,41 +15,40 @@ parser.add_argument('--dimension', type=int, default=100, metavar='N',
 parser.add_argument('--seed', type=int, default=0, metavar='N',
                     help='random seed (default: 0)')
 seed = parser.parse_args().seed
-# Omega 空间域
+# Omega space domain
 DIMENSION = parser.parse_args().dimension
-a = [ 0 for _ in range(DIMENSION)]
-b = [ 1 for _ in range(DIMENSION)]
+a = [0 for _ in range(DIMENSION)]
+b = [1 for _ in range(DIMENSION)]
 # Finite Volume
-EPSILON   = 1e-3        # 领域大小
+EPSILON   = 1e-3        # Neighborhood size
 BDSIZE    = 1
-# Netword
-DIM_INPUT  = DIMENSION   # 输入维数
-NUM_UNIT   = 40          # 单层神经元个数
-DIM_OUTPUT = 1           # 输出维数
-NUM_LAYERS = 6           # 模型层数
+# Network
+DIM_INPUT  = DIMENSION   # Input dimension
+NUM_UNIT   = 40          # Number of neurons per layer
+DIM_OUTPUT = 1           # Output dimension
+NUM_LAYERS = 6           # Number of model layers
 # Optimizer
 IS_DECAY   = 0
-LEARN_RATE         = 1e-3    # 学习率
-LEARN_FREQUENCY    = 50     # 学习率变化间隔
+LEARN_RATE         = 1e-3    # Learning rate
+LEARN_FREQUENCY    = 50      # Learning rate change interval
 LEARN_LOWWER_BOUND = 1e-5
 LEARN_DECAY_RATE   = 0.99
 LOSS_FN            = nn.MSELoss()
 # Training
 CUDA_ORDER = "0"
-NUM_TRAIN_SMAPLE   = 10000    # 训练集大小
-NUM_TRAIN_TIMES    = 1       # 训练样本份数
-NUM_ITERATION      = 100000   # 单份样本训练次数
+NUM_TRAIN_SMAPLE   = 10000    # Training set size
+NUM_TRAIN_TIMES    = 1        # Number of training samples
+NUM_ITERATION      = 100000   # Number of training iterations per sample
 # Re-sampling
 IS_RESAMPLE = 0
-SAMPLE_FREQUENCY   = 2000     # 重采样间隔
+SAMPLE_FREQUENCY   = 2000     # Resampling interval
 # Testing
 NUM_TEST_SAMPLE    = 10000
-TEST_FREQUENCY     = 1     # 输出间隔
+TEST_FREQUENCY     = 1        # Output interval
 # Loss weight
-BETA = 1000                  # 边界损失函数权重
+BETA = 1000                   # Boundary loss function weight
 # Save model
 IS_SAVE_MODEL = 1
-
 
 class PossionQuation(object):
     def __init__(self, dimension, epsilon, bd_size, device):
@@ -74,19 +72,19 @@ class PossionQuation(object):
         u = torch.where(x<0.5, x.pow(2), (x-1).pow(2))
         return u.reshape(-1,1).detach()
 
-    # 区域内部的采样
+    # Sampling within the region
     def interior(self, N=100):
         eps = self.E # np.spacing(1)
         l_bounds = [l+eps for l in a]
         u_bounds = [u-eps for u in b]
-        X = torch.FloatTensor( sampleCubeMC(self.D, l_bounds, u_bounds, N) )
+        X = torch.FloatTensor(sampleCubeMC(self.D, l_bounds, u_bounds, N))
         # X = torch.FloatTensor( sampleCubeQMC(self.D, l_bounds, u_bounds, N) )
         return X.requires_grad_(True).to(self.device)
 
-    # 边界采样
+    # Boundary sampling
     def boundary(self, n=100):
         x_boundary = []
-        for i in range( self.D ):
+        for i in range(self.D):
             x = np.random.uniform(a[i], b[i], [2*n, self.D]) 
             x[:n,i] = b[i]
             x[n:,i] = a[i]
@@ -95,23 +93,22 @@ class PossionQuation(object):
         x_boundary = torch.FloatTensor(x_boundary).requires_grad_(True).to(self.device)
         return x_boundary
 
-
-    # 在点 x 邻域内随机取 bdsize 个点
+    # Randomly take bdsize points in the neighborhood of point x
     def neighborhood(self, x, size):
         l_bounds = [t-self.E for t in x.cpu().detach().numpy()]
         u_bounds = [t+self.E for t in x.cpu().detach().numpy()]
         sample   = sampleCubeQMC(self.D, l_bounds, u_bounds, size)
-        sample   = torch.FloatTensor( sample ).to(self.device)
+        sample   = torch.FloatTensor(sample).to(self.device)
         return sample
 
     def neighborhoodBD(self, X):
         lb = [-1 for _ in range(self.D-1)]
-        ub = [ 1 for _ in range(self.D-1)]
+        ub = [1 for _ in range(self.D-1)]
         x_QMC   = sampleCubeQMC(self.D-1, lb, ub, self.B)
         x_nbound = []
-        for i in range( self.D ):
-            x_nbound.append( np.insert(x_QMC, i, [ 1], axis=1) )
-            x_nbound.append( np.insert(x_QMC, i, [-1], axis=1) )
+        for i in range(self.D):
+            x_nbound.append(np.insert(x_QMC, i, [1], axis=1))
+            x_nbound.append(np.insert(x_QMC, i, [-1], axis=1))
         x_nbound = np.concatenate(x_nbound, axis=0).reshape(1, -1, self.D)
         x_nbound = torch.FloatTensor(x_nbound).to(self.device)
         X = torch.unsqueeze(X, dim=1)
@@ -122,12 +119,11 @@ class PossionQuation(object):
 
     def outerNormalVec(self):
         bd_dir = torch.zeros(2*self.D*self.bdsize, self.D)
-        for i in range( self.D ):
-            bd_dir[    2*i*self.bdsize : (2*i+1)*self.bdsize, i] =  1
+        for i in range(self.D):
+            bd_dir[2*i*self.bdsize : (2*i+1)*self.bdsize, i] = 1
             bd_dir[(2*i+1)*self.bdsize : 2*(i+1)*self.bdsize, i] = -1
         bd_dir = bd_dir.reshape(1,-1)
         return bd_dir.detach().requires_grad_(True).to(self.device)
-
 
 class DFVMsolver(object):
     def __init__(self, Equation, model, device):
@@ -135,7 +131,7 @@ class DFVMsolver(object):
         self.model  = model
         self.device = device
 
-    # 计算散度 u = u_theta
+    # Compute divergence u = u_theta
     def Nu(self, X):
         u = self.model(X)
         Du = torch.autograd.grad(outputs     = [u], 
@@ -146,17 +142,17 @@ class DFVMsolver(object):
                                 create_graph = True)[0]
         return Du
 
-    # 计算各采样点邻域边界积分
+    # Compute boundary integral at each sampling point
     def integrate_BD(self, X, x_bd, bd_dir):
         n = len(X)
         integrate_bd = torch.zeros(n, 1).to(self.device)
-        # 计算梯度
+        # Compute gradient
         Du = self.Nu(x_bd).reshape(n, -1)
-        # 将梯度与法线向量矩阵相乘得到方向导数
+        # Multiply gradient with normal vector matrix to get directional derivative
         integrate_bd = torch.sum(Du*bd_dir, 1)/(2*self.Eq.bdsize)
         return integrate_bd
 
-    # 计算体积积分
+    # Compute volume integral
     def integrate_F(self, X):
         n = len(X)
         integrate_f = torch.zeros([n, 1]).to(self.device)
@@ -166,7 +162,7 @@ class DFVMsolver(object):
             integrate_f[i] = torch.mean(res)*self.Eq.E
         return integrate_f.detach().requires_grad_(True)
 
-    # 边界损失函数
+    # Boundary loss function
     def loss_boundary(self, x_boundary):
         u_theta    = self.model(x_boundary).reshape(-1,1)
         u_bound    = self.Eq.g(x_boundary).reshape(-1,1)
@@ -182,10 +178,9 @@ class DFVMsolver(object):
             end    = time.time()
             u_pred = self.model(x_test).reshape(1,-1)
             Error  =  u_real - u_pred
-            L2error  = torch.sqrt( torch.mean(Error*Error) )/ torch.sqrt( torch.mean(u_real*u_real) )
+            L2error  = torch.sqrt(torch.mean(Error*Error)) / torch.sqrt(torch.mean(u_real*u_real))
             MaxError = torch.max(torch.abs(Error))
         return L2error.cpu().detach().numpy(), MaxError.cpu().detach().numpy(), end-begin
-
 
 class MLP(nn.Module):
     def __init__(self, in_channels=3, out_channels=1, hidden_width=40):
@@ -221,11 +216,10 @@ def setup_seed(seed):
     # random.seed(seed)
     torch.backends.cudnn.deterministic = True
 
-
 def train_pipeline():
     # define device
     DEVICE = torch.device(f"cuda:{CUDA_ORDER}" if torch.cuda.is_available() else "cpu")
-    print(f"当前启用 {DEVICE}")
+    print(f"Current device {DEVICE}")
     # define equation
     Eq = PossionQuation(DIMENSION, EPSILON, BDSIZE, DEVICE)
     # define model
@@ -241,9 +235,9 @@ def train_pipeline():
     bd_dir = Eq.outerNormalVec()
     x_boundary = Eq.boundary(100)
     
-    # 网络迭代
-    elapsed_time     = 0    # 计时
-    training_history = []    # 记录数据
+    # Network iteration
+    elapsed_time     = 0    # Timing
+    training_history = []    # Record data
 
     for step in tqdm(range(NUM_ITERATION+1)):
         if IS_DECAY and step and step % LEARN_FREQUENCY == 0:
@@ -299,7 +293,6 @@ def train_pipeline():
     if IS_SAVE_MODEL:
         torch.save(model.state_dict(), dir_path + f'{DIMENSION}DIM-DFVM_net')
         print('DFVM Network Saved!')
-
 
 if __name__ == "__main__":
     setup_seed(seed)

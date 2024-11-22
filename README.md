@@ -113,7 +113,7 @@ url = {https://doi.org/10.18419/darus-2986}
 | 2D Allen-Cahn Equation | 6.2G | [AI4SC Website](http://aisccc.cn/database/data-details?id=56&type=resource), [Google Drive](https://drive.google.com/file/d/11AA7RAts9ErTaY7Qk4W3TWFu6OKp1RJx/view?usp=drive_link) |
 | 2D Black-Scholes-Barenblatt Equation | 6.2G | [AI4SC Website](http://aisccc.cn/database/data-details?id=53&type=resource), [Google Drive](https://drive.google.com/file/d/11WgIOSYR6UKk16G_NK82k0Y_QM7azQlH/view?usp=drive_link) |
 | 2D Burgers Equation | 12.3G | AI4SC Website, [Google Drive](https://drive.google.com/file/d/11ICqL_oK52nCW5u3r31WUINtbPnRHGeo/view?usp=drive_link) | 
-| 3D Euler Equation | 83G | [AI4SC Website](http://aisccc.cn/database/data-details?id=54&type=resource), [Google Drive](https://drive.google.com/file/d/11aRPB5RdoDOH8nef3J96RpJANV-WhNv1/view?usp=drive_link) | 
+| 3D Euler Equation | 83G | [AI4SC Website](http://aisccc.cn/database/data-details?id=54&type=resource), [Google Drive](https://drive.google.com/file/d/135gVHrzhSzJ1PCw_1e4gQnJ0D5wgSBnE/view?usp=drive_link) | 
 | 3D Maxwell Equation | 5.9G | [AI4SC Website](http://aisccc.cn/database/data-details?id=55&type=resource), [Google Drive](https://drive.google.com/file/d/11b3p8zqEu1vawtZkI1ThCSilYAz1Hyya/view?usp=drive_link) | 
 
 ## Getting Started

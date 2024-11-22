@@ -1,4 +1,4 @@
-# %% 引入模块
+# %
 import csv
 import time
 import math
@@ -20,7 +20,7 @@ import os
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(device)
 
-# %% 配置方程
+# %
 class linearpossion(object):
     def __init__(self, dimension):
         self.dim = dimension
@@ -155,7 +155,7 @@ def setup_seed(seed):
 
 
 # Parser
-parser = argparse.ArgumentParser(description='DFVM')
+parser = argparse.ArgumentParser(description='DFLM')
 parser.add_argument('--dimension', type=int, default=100, metavar='N',
                     help='dimension of the problem (default: 100)')
 parser.add_argument('--seed', type=int, default=0, metavar='N',
@@ -172,14 +172,14 @@ m = 10
 
 setup_seed(seed)
 
-# %% 额外函数
+# %
 def weights_init(m):
     if type(m) == nn.Linear:
         torch.nn.init.xavier_uniform_(m.weight)
         torch.nn.init.zeros_(m.bias)
     # if type(m) == nn.Parameter:
     #     torch.nn.init.xavier_uniform_(m.params)
-# %% 配置训练
+# %
 
 Eq = linearpossion(DIMENSION)
 U = MLP(DIMENSION).to(device)
@@ -187,7 +187,7 @@ U = MLP(DIMENSION).to(device)
 optU = optim.Adam(U.parameters(), lr=LEARNING_RATE)
 
 
-# %% 开始训练
+# %
 start_time = time.time()
 elapsed_time = 0
 training_history = []
