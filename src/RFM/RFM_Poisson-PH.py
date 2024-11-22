@@ -9,6 +9,7 @@ import torch
 import torch.nn as nn
 from torch import Tensor, sin
 
+
 # %%
 # Parse arguments
 argparser = argparse.ArgumentParser()
@@ -24,6 +25,7 @@ print(args)
 dimension = args.dimension
 n_basis_func = args.num_basis
 
+
 # %%
 # Set random seed and deterministic behavior 2024/1018/1021/2010
 seed = args.seed
@@ -35,7 +37,9 @@ torch.backends.cudnn.benchmark = False
 torch.set_default_dtype(torch.float64)
 start_time = time.time()
 
+
 # %%
+# Define the network architecture
 class Net(nn.Module):
     def __init__(self, hidden_size, dimension, scale):
         # hidden_size: The hidden layer size that is equal to the number of basis/feature functions
@@ -51,25 +55,28 @@ class Net(nn.Module):
 
 net = Net(n_basis_func, dimension, args.scale)
 
+
 # %%
-# Sample boundary points
-n_bc = 400 # The number of boundary points
+# Define boundary of PDE
 xl = -1.0 # left boundary: [xl, xr]^d
 xr = 1.0 # right boundary: [xl, xr]^d
-
-points_bc_raw = np.random.uniform(xl, xr, (2*n_bc*dimension, dimension))
-for i in range(n_bc):
-    # range for this is [i*2d, (i+1)*2d]
-    for j in range(dimension):
-        points_bc_raw[i*2*dimension+j, j] = xl
-        points_bc_raw[i*2*dimension+dimension+j, j] = xr
-X_initial = torch.from_numpy(points_bc_raw)
 
 # Sample interior points
 n_in = 3000 # The number of interior points
 points_in = np.random.uniform(xl, xr, (n_in, dimension))
 X = torch.from_numpy(points_in)
 X.requires_grad_(True)
+
+# Sample boundary points
+n_bc = 400 # The number of boundary points
+points_bc_raw = np.random.uniform(xl, xr, (2*n_bc*dimension, dimension))
+for i in range(n_bc):
+    # range for this is [i*2d, (i+1)*2d]
+    for j in range(dimension):
+        points_bc_raw[i*2*dimension+j, j] = xl
+        points_bc_raw[i*2*dimension+dimension+j, j] = xr
+X_bound = torch.from_numpy(points_bc_raw)
+
 
 # %%
 # Calculate first and second order derivatives
@@ -111,7 +118,8 @@ for i in range(len(DD_list)):
     DD.append(torch.stack(DD_list[i]))
 DD = torch.stack(DD).squeeze().permute(0, 2, 1)
 
-# %%
+
+# %% Ground Truth
 # The expression of ground truth
 def real_solution(p: torch.Tensor):
     sum = 0 
@@ -127,28 +135,31 @@ def boundary(p: Tensor):
 def initial(p: Tensor):
     return real_solution(p)
 
-# %%
-f_domain_exact = np.zeros((X.shape[0], 1)) # The value of the right hand side at collocation points
 
-f_domain = 0 
+# %% Construct loss function
+# The interior point conditions
+f_domain = 0
 for i in range(dimension):
     f_domain += DD[i].detach().cpu().numpy()
-
 sum_X = 0
 for i in range(dimension):
-    sum_X += X[:,i:i+1]
+    sum_X += X[:, i:i+1]
+f_domain_exact = np.zeros((X.shape[0], 1))
 
-u_initial_pred = net(X_initial)    
-u_initial_pred = u_initial_pred.detach().cpu().numpy()
-u_initial_exact = boundary(X_initial).detach().cpu().numpy()
+# The boundary condition
+u_bound_pred = net(X_bound)
+u_bound_pred = u_bound_pred.detach().cpu().numpy()
+u_bound_exact = boundary(X_bound).detach().cpu().numpy()
 
 # AC = f
-A = np.vstack([f_domain + 1 / dimension * (sin(1/dimension*(sum_X)) - 2).detach().cpu().numpy(), u_initial_pred])
-f = np.vstack([f_domain_exact, u_initial_exact])
+A = np.vstack([f_domain + 1 / dimension * (sin(1/dimension*(sum_X)) - 2).detach().cpu().numpy(), u_bound_pred])
+f = np.vstack([f_domain_exact, u_bound_exact])
+
 
 # %%
 # Perform least-squares approximation to obtain coefficient matrix C
 C = sci.linalg.lstsq(A, f)[0] # (M, 1)
+
 
 # %%
 # Calculate Metrics
@@ -163,11 +174,13 @@ print("L2 Relative Error:", rel_error)
 Max_error = max_error(u_pred, u_domain_exact)
 print("Max Error:", Max_error)
 
+
 # %%
 # Record execution time
 end_time = time.time()
 execution_time = end_time - start_time
 print(f"Execution Time: {execution_time}s")
+
 
 # %%
 # Save basis/feature functions and coefficient matrix C

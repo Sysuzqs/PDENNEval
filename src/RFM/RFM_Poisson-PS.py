@@ -9,6 +9,7 @@ import torch
 import torch.nn as nn
 from torch import Tensor
 
+
 # %%
 # Parse arguments
 argparser = argparse.ArgumentParser()
@@ -22,6 +23,7 @@ print(args)
 # Define the dimension of equation
 n_basis_func = args.num_basis
 
+
 # %%
 # set random seed and deterministic behavior
 seed = args.seed
@@ -33,7 +35,9 @@ torch.backends.cudnn.benchmark = False
 torch.set_default_dtype(torch.float64)
 start_time = time.time()
 
+
 # %%
+# Define the network architecture
 class Net(nn.Module):
     def __init__(self, hidden_size, scale):
         # hidden_size: The hidden layer size that is equal to the number of basis/feature functions
@@ -49,13 +53,21 @@ class Net(nn.Module):
     
 net = Net(n_basis_func, args.scale)
 
+
 # %%
-# Sample boundary points
+# Define dimension and boundary of PDE
 d = 2 # The input dimension of the PDE
-n_bc = 100 # The number of boundary points
 xl = 0.0 # left boundary.
 xr = 1.0 # right boundary.
 
+# Sample interior points
+n_in = 1000 # The number of interior points
+points_in = np.random.uniform(xl, xr, (n_in, d))
+X = torch.from_numpy(points_in)
+X.requires_grad_(True)
+
+# Sample boundary points
+n_bc = 100 # The number of boundary points
 points_bc_raw = np.random.uniform(xl, xr, (2*n_bc*d, d))
 for i in range(n_bc):
     # range for this is [i * 2d, (i + 1) * 2d]
@@ -65,11 +77,6 @@ for i in range(n_bc):
 points_bc = points_bc_raw
 X_bound = torch.from_numpy(points_bc)
 
-# Sample interior points
-n_in = 1000 # The number of interior points
-points_in = np.random.uniform(xl, xr, (n_in, d))
-X = torch.from_numpy(points_in)
-X.requires_grad_(True)
 
 # %%
 # Calculate first and second order derivatives
@@ -105,7 +112,8 @@ dy = torch.cat(dy,dim=1) # [n，m]
 dxx = torch.cat(dxx,dim=1)
 dyy = torch.cat(dyy,dim=1) # [n, m]
 
-# %%
+
+# %% Ground Truth
 # The expression of ground truth
 def real_solution(p: Tensor):
     x = p[:, 0:1]
@@ -120,25 +128,27 @@ def boundary(p: Tensor):
 def initial(p: Tensor):
     return real_solution(p)
 
-# %%
-f_domain_exact = -2 * np.ones((X.shape[0],1)) # The value of the right side of the equation at the interior points
 
-# boundary condition: u(x,0), u(x, 1)
+# %% Construct loss function
+# The interior points of eqution
+u_domain_dxx_pred = dxx.detach().cpu().numpy()
+u_domain_dyy_pred = dyy.detach().cpu().numpy()
+f_domain_exact = -2 * np.ones((X.shape[0], 1)) # The value of the right side of the equation at the interior points
+
+# The boundary condition: u(x,0), u(x, 1)
 u_bound_pred = net(X_bound) # The left hand side of initial condition
 u_bound_pred = u_bound_pred.detach().cpu().numpy()
 u_bound_exact = boundary(X_bound).detach().cpu().numpy()
-
-# The interior points of eqution
-u_domain_dxx_pred = dxx.detach().cpu().numpy() 
-u_domain_dyy_pred = dyy.detach().cpu().numpy() # Prepare for the left hand of equation
 
 # AC = f
 A = np.vstack([-u_domain_dxx_pred-u_domain_dyy_pred, u_bound_pred])
 f = np.vstack([f_domain_exact, u_bound_exact])
 
+
 # %%
 # Perform least-squares approximation to obtain coefficient matrix C
 C = sci.linalg.lstsq(A, f)[0] # (M，1)
+
 
 # %%
 # Calculate Metrics
@@ -153,11 +163,13 @@ print("Relative Error: ", rel_error)
 Max_error = max_error(u_pred, u_domain_exact)
 print("Max Error:", Max_error)
 
+
 # %%
 # Record execution time
 end_time = time.time()
 execution_time = end_time - start_time
 print(f"Execution time: {execution_time}s")
+
 
 # %%
 # Save basis/feature functions and coefficient matrix C

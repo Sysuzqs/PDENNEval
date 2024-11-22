@@ -9,6 +9,7 @@ from sklearn.metrics import max_error
 import pandas as pd
 import time
 
+
 # %%
 # Parse arguments
 argparser = argparse.ArgumentParser()
@@ -21,6 +22,7 @@ print(args)
 
 n_basis_func = args.num_basis  # define the number of feature functions
 
+
 # %%
 # Set random seed and deterministic behavior
 seed = args.seed
@@ -31,6 +33,7 @@ torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 torch.set_default_dtype(torch.float64)
 start_time = time.time()
+
 
 # %%
 # Define the network architecture
@@ -49,15 +52,46 @@ class Net(nn.Module):
 
 net = Net(n_basis_func, args.scale)
 
+
 # %%
-# Read test data from csv file
+# Read data from csv file
 data = pd.read_csv('Lshape.csv')
-data_cleaned = data[data['U'] != 0 ]
-x_test =  torch.tensor(data_cleaned['X'].values)
+data_cleaned = data[data['U'] != 0]
+
+# Interior points
+x_test = torch.tensor(data_cleaned['X'].values)
 y_test = torch.tensor(data_cleaned['Y'].values)
 X = torch.stack([x_test, y_test], dim=1)
-u_domain_exact = torch.tensor(data_cleaned['U'].values).unsqueeze(1)
 X.requires_grad_(True)
+
+# Ground truth
+u_domain_exact = torch.tensor(data_cleaned['U'].values).unsqueeze(1)
+
+# Sample initial points
+size_x_initial = 200
+x_initial = np.concatenate([np.linspace(-1, -1, size_x_initial).reshape(-1,1), 
+                            np.linspace(-1, 1, size_x_initial).reshape(-1,1)], axis=1)
+x_initial = torch.from_numpy(x_initial)
+
+# Sample boundary points
+size_x_bound = 200
+x_bound1 = np.concatenate([np.linspace(-1, 1, size_x_bound).reshape(-1,1), 
+                           np.linspace(-1, -1, size_x_bound).reshape(-1,1)], axis=1)
+x_bound1 = torch.from_numpy(x_bound1)
+x_bound2 = np.concatenate([np.linspace(-1, 0, size_x_bound).reshape(-1,1), 
+                           np.linspace(1, 1, size_x_bound).reshape(-1,1)], axis=1)
+x_bound2 = torch.from_numpy(x_bound2)
+x_bound3 = np.concatenate([np.linspace(0, 1, size_x_bound).reshape(-1,1), 
+                           np.linspace(0, 0, size_x_bound).reshape(-1,1)], axis=1)
+x_bound3 = torch.from_numpy(x_bound3)
+x_bound4 = np.concatenate([np.linspace(0, 0, size_x_bound).reshape(-1,1), 
+                           np.linspace(0, 1, size_x_bound).reshape(-1,1)], axis=1)
+x_bound4 = torch.from_numpy(x_bound4)
+x_bound5 = np.concatenate([np.linspace(1, 1, size_x_bound).reshape(-1,1), 
+                           np.linspace(-1, 0, size_x_bound).reshape(-1,1)], axis=1)
+x_bound5 = torch.from_numpy(x_bound5)
+X_bound = torch.cat((x_initial, x_bound1, x_bound2, x_bound3, x_bound4, x_bound5), dim=0)
+
 
 # %%
 # Calculate first and second order derivatives
@@ -93,57 +127,27 @@ dy = torch.cat(dy,dim=1) # [n，m]
 dxx = torch.cat(dxx,dim=1)
 dyy = torch.cat(dyy,dim=1) # [n，m]
 
-# %%
-# set initial condition
-size_x_initial = 200
-x_initial = np.concatenate([np.linspace(-1, -1, size_x_initial).reshape(-1,1), 
-                            np.linspace(-1, 1, size_x_initial).reshape(-1,1)], axis=1)
-x_initial = torch.from_numpy(x_initial)
 
-# Set boundary condition
-size_x_bound = 200
+# %% Construct loss function
+# The interior point conditions
+u_domain_dxx_pred = dxx.detach().cpu().numpy()
+u_domain_dyy_pred = dyy.detach().cpu().numpy()
+f_domain_exact = np.ones((X.shape[0], 1))
 
-x_bound1 = np.concatenate([np.linspace(-1, 1, size_x_bound).reshape(-1,1), 
-                           np.linspace(-1, -1, size_x_bound).reshape(-1,1)], axis=1)
-x_bound1 = torch.from_numpy(x_bound1)
-
-x_bound2 = np.concatenate([np.linspace(-1, 0, size_x_bound).reshape(-1,1), 
-                           np.linspace(1, 1, size_x_bound).reshape(-1,1)], axis=1)
-x_bound2 = torch.from_numpy(x_bound2)
-
-x_bound3 = np.concatenate([np.linspace(0, 1, size_x_bound).reshape(-1,1), 
-                           np.linspace(0, 0, size_x_bound).reshape(-1,1)], axis=1)
-x_bound3 = torch.from_numpy(x_bound3)
-
-x_bound4 = np.concatenate([np.linspace(0, 0, size_x_bound).reshape(-1,1), 
-                           np.linspace(0, 1, size_x_bound).reshape(-1,1)], axis=1)
-x_bound4 = torch.from_numpy(x_bound4)
-
-x_bound5 = np.concatenate([np.linspace(1, 1, size_x_bound).reshape(-1,1), 
-                           np.linspace(-1, 0, size_x_bound).reshape(-1,1)], axis=1)
-x_bound5 = torch.from_numpy(x_bound5)
-
-X_bound = torch.cat((x_initial, x_bound1, x_bound2, x_bound3, x_bound4, x_bound5), dim=0)
-
-# %%
-f_domain_exact = np.ones((X.shape[0],1))
-
-# boundary condition
+# The boundary condition
 u_bound_pred = net(X_bound.to(X.device))
 u_bound_pred = u_bound_pred.detach().cpu().numpy()
-u_bound_exact = np.zeros((X_bound.shape[0],1))
-
-# The interior point conditions of eqution
-u_domain_dxx_pred = dxx.detach().cpu().numpy() 
-u_domain_dyy_pred = dyy.detach().cpu().numpy()  
+u_bound_exact = np.zeros((X_bound.shape[0], 1))
 
 # AC = f
-A = np.vstack([-u_domain_dxx_pred -u_domain_dyy_pred , u_bound_pred])
+A = np.vstack([-u_domain_dxx_pred-u_domain_dyy_pred, u_bound_pred])
 f = np.vstack([f_domain_exact, u_bound_exact])
+
 
 # %%
 # Perform least-squares approximation to obtain coefficient matrix C
-C = sci.linalg.lstsq(A, f)[0] # (M，1)  
+C = sci.linalg.lstsq(A, f)[0] # (M，1)
+
 
 # %%
 # Calculate Metrics
@@ -158,11 +162,13 @@ print("Relative Error:", rel_error)
 Max_error = max_error(u_pred, u_domain_exact)
 print("Max Error:", Max_error)
 
+
 # %%
 # Record execution time
 end_time = time.time()
 execution_time = end_time - start_time
 print(f"Execution time: {execution_time}s")
+
 
 # %%
 # Save basis/feature functions and coefficient matrix C
