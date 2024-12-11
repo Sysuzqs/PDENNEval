@@ -185,5 +185,5 @@ print(f"Execution Time: {execution_time}s")
 # Save basis/feature functions and coefficient matrix C
 if not os.path.exists(args.save_dir):
     os.makedirs(args.save_dir)
-torch.save(net.state_dict(), os.path.join(args.save_dir, f"network_{dimension}D_{args.num_basis}basis_scale{args.scale}_seed{args.seed}.pth"))
-np.save(os.path.join(args.save_dir, f"C_{dimension}D_{args.num_basis}basis_scale{args.scale}_seed{args.seed}.npy"), C)
+torch.save(net.state_dict(), os.path.join(args.save_dir, f"network_{dimension}D_{args.num_basis}basis_seed{args.seed}.pth"))
+np.save(os.path.join(args.save_dir, f"C_{dimension}D_{args.num_basis}basis_seed{args.seed}.npy"), C)
